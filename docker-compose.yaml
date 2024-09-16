@@ -1,0 +1,25 @@
+services:
+  abomination-backend:
+    container_name: 'abomination-backend'
+    build:
+      context: .
+      dockerfile: Dev.Dockerfile
+    command: '/app/scripts/docker/local-run.sh'
+    depends_on:
+      - postgres
+    restart: always
+    ports:
+      - '8080:8080'
+      - '9229:9229'
+    env_file: .env.local
+    volumes:
+      - './src:/app/src'
+  postgres:
+    container_name: 'abomination-database'
+    hostname: postgres
+    image: postgres
+    restart: always
+    env_file: .env.local
+    expose:
+      - 5432
+    ports: ['5444:5432']
